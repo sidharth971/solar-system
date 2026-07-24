@@ -23,12 +23,12 @@ jobs:
     setup_environments:
         runs-on: ubuntu-latest
         timeout-minutes: 10
+        continue-on-error: true
         steps:
             - name: Update System
               run: |
                 sudo apt update
                 sudo apt upgrade -y
-              continue-on-error: true
 
             - name: Checkout the repo
               uses: actions/checkout@v7
