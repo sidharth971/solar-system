@@ -61,7 +61,7 @@ jobs:
 
             - if: ${{steps.cache-npm}}
               name: print cache
-              run: echo ${{steps.cache-npm}}
+              run: echo ${{toJSON(steps.cache-npm)}}
 
 
 
