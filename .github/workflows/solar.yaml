@@ -59,9 +59,11 @@ jobs:
               run: npm test
               continue-on-error: true
 
-            - if: ${{steps.cache-npm}}
+            - if: ${{steps.cache-npm.outputs.cache-hit}}
               name: print cache
-              run: echo ${{toJSON(steps.cache-npm)}}
+              env:
+                CACHE_JSON: ${{ toJSON(steps.cache-npm) }}
+              run: echo "$CACHE_JSON"
 
 
 
