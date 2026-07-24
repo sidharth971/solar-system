@@ -25,13 +25,10 @@ jobs:
         timeout-minutes: 10
         continue-on-error: true
         steps:
-            - name: Update System
-              run: |
-                sudo apt update
-                sudo apt upgrade -y
-
             - name: Checkout the repo
               uses: actions/checkout@v7
+              with:
+                ref: feature_test
 
             - name: Setup node
               uses: actions/setup-node@v7
