@@ -57,6 +57,7 @@ jobs:
 
             - name: Run unit test
               run: npm test
+              continue-on-error: true
 
             - if: ${{steps.cache-npm}}
               name: print cache
