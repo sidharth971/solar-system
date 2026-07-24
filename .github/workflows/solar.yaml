@@ -68,9 +68,9 @@ jobs:
                 echo "$CACHE_JSON" > artifact.json
 
             - name: Upload static files as artifact
-              uses: actions/upload-pages-artifact@v3
+              uses: actions/upload-artifact@v7
               with:
-                name: my-artifact
+                name: my-artifact-json
                 path: artifact.json
 
 
