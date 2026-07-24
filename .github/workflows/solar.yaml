@@ -63,7 +63,15 @@ jobs:
               name: print cache
               env:
                 CACHE_JSON: ${{ toJSON(steps.cache-npm) }}
-              run: echo "$CACHE_JSON"
+              run: | 
+                echo "$CACHE_JSON"
+                echo "$CACHE_JSON" > artifact.json
+
+            - name: Upload static files as artifact
+              id: deployment
+              uses: actions/upload-pages-artifact@v3 # or specific "vX.X.X" version tag for this action
+              with:
+                path: build_outputs_folder/
 
 
 
