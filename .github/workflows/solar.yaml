@@ -25,7 +25,9 @@ jobs:
         timeout-minutes: 10
         steps:
             - name: Update System
-              run: apt update && apt upgrade -y
+              run: |
+                sudo apt update
+                sudo apt upgrade -y
               continue-on-error: true
 
             - name: Checkout the repo
