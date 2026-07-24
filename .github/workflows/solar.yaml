@@ -1,0 +1,44 @@
+name: My firat workflow
+on:
+    workflow_dispatch:
+        inputs:
+            Environments:
+                description: Set the environments
+                type: choice
+                options:
+                    - Dev
+                    - Staging
+                    - Prod
+                default: Feature
+
+    pull_request:
+        types: [labeled]
+        
+jobs:
+    setup_environments:
+        runs-on: ubuntu-latest
+        timeout-minutes: 
+        steps:
+            - name: Update System
+              run: apt get update && apt get upgrade -y
+
+            - name: Checkout the repo
+              uses: actions/checkout@v7
+
+            - name: Setup node
+              uses: actions/setup-node@v7
+              with:
+                node_version: 20
+              run: node -v
+
+            - name: Setup python
+              uses: actions/setup-python@v7
+              with:
+                python-version: '3.13'
+              run: python -v
+
+            - name: Install node packages
+              run: npm install
+
+            - name: Run unit test
+              run: npm test
