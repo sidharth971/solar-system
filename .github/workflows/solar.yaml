@@ -45,11 +45,24 @@ jobs:
                 node -v
                 python -v
 
+            - name: Cache node modules
+              id: cache-npm
+              uses: actions/cache@v4
+              with:
+                path: node_modules
+                key: ${{runner.os}}-sidhu-nodefile-${{hashFiles('**/package-lock.json')}}
+
             - name: Install node packages
               run: npm install
 
             - name: Run unit test
               run: npm test
+
+            - if: ${{steps.cache-npm}}
+              name: print cache
+              run: echo ${{steps.cache-npm}}
+
+
 
 
 
