@@ -17,7 +17,7 @@ on:
 jobs:
     setup_environments:
         runs-on: ubuntu-latest
-        timeout-minutes: 
+        timeout-minutes: 10
         steps:
             - name: Update System
               run: apt get update && apt get upgrade -y
@@ -48,4 +48,3 @@ jobs:
 
 
 
-              
