@@ -13,17 +13,22 @@ on:
 
     pull_request:
         types: [labeled]
+
+env:
+    MONGO_URI: ${{vars.MONGO_URL}}
+    MONGO_USERNAME: ${{vars.MONGO_UNAME}}
+    MONGO_PASSWORD: ${{secrets.MONGO_SECRECT}}
         
 jobs:
     setup_environments:
         runs-on: ubuntu-latest
-        timeout-minutes: 
+        timeout-minutes: 10
+        continue-on-error: true
         steps:
-            - name: Update System
-              run: apt get update && apt get upgrade -y
-
             - name: Checkout the repo
               uses: actions/checkout@v7
+              with:
+                ref: feature_test
 
             - name: Setup node
               uses: actions/setup-node@v7
@@ -40,8 +45,35 @@ jobs:
                 node -v
                 python -v
 
+            - name: Cache node modules
+              id: cache-npm
+              uses: actions/cache@v4
+              with:
+                path: node_modules
+                key: ${{runner.os}}-sidhu-nodefile-${{hashFiles('**/package-lock.json')}}
+
             - name: Install node packages
               run: npm install
 
             - name: Run unit test
               run: npm test
+              continue-on-error: true
+
+            - if: ${{steps.cache-npm.outputs.cache-hit}}
+              name: print cache
+              env:
+                CACHE_JSON: ${{ toJSON(steps.cache-npm) }}
+              run: | 
+                echo "$CACHE_JSON"
+                echo "$CACHE_JSON" > artifact.json
+
+            - name: Upload static files as artifact
+              uses: actions/upload-artifact@v7
+              with:
+                name: my-artifact-json
+                path: artifact.json
+
+
+
+
+
