@@ -21,6 +21,7 @@ jobs:
         steps:
             - name: Update System
               run: apt get update && apt get upgrade -y
+              continue-on-error: true
 
             - name: Checkout the repo
               uses: actions/checkout@v7
